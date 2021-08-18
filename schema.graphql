@@ -1,0 +1,9 @@
+type NewCar @entity {
+  id: ID!
+  carAddress: Bytes!
+}
+
+type CarSpec @entity {
+  id: ID!
+  specs: String
+}

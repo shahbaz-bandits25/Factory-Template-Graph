@@ -1,0 +1,43 @@
+specVersion: 0.0.2
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: CarFactory
+    network: rinkeby
+    source:
+      address: "0x69790E65a0c3D3420B60c66cCf717F51853A6404"
+      abi: CarFactory
+      startBlock: 9107034
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - NewCar
+      abis:
+        - name: CarFactory
+          file: ./abis/CarFactory.json
+      eventHandlers:
+        - event: NewCar(address)
+          handler: handleNewCar
+      file: ./src/mapping.ts
+templates:
+  - name: Car
+    kind: ethereum/contract
+    network: rinkeby
+    source:
+      abi: Car
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      file: ./src/Car.ts
+      entities:
+        - CarSpec
+      abis:
+        - name: Car
+          file: ./abis/Car.json
+      eventHandlers:
+        - event: carUpgraded(address,string)
+          handler: handlecarUpgraded
